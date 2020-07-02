@@ -8,9 +8,11 @@ import { errors } from 'celebrate';
 
 import Routes from './routes'; 
 
-const dotenv = config();
-
-if (dotenv.error) throw new Error(`Error while configuring dotenv, \n Error: ${dotenv.error}`);
+if (process.env.development) {
+    const dotenv = config();
+    
+    if (dotenv.error) throw new Error(`Error while configuring dotenv, \n Error: ${dotenv.error}`);
+}
 
 const authenticate = expressJwt({ secret: process.env.SECRET_JWT || '' })
     .unless(
