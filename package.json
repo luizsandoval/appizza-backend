@@ -9,8 +9,7 @@
         "url": "https://github.com/luizsandoval"
     },
     "scripts": {
-        "build": "tsc -w",
-        "build:prod": "tsc && npm run copy-assets",
+        "build": "tsc && npm run copy-assets",
         "start:prod": "node ./dist/src/server.js",
         "start:dev": "ts-node-dev --transpileOnly --ignore-watch node_modules src/server.ts",
         "database": "npm run knex:migrate && npm run knex:seed",
