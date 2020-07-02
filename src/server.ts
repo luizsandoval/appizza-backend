@@ -8,7 +8,7 @@ import { errors } from 'celebrate';
 
 import Routes from './routes'; 
 
-if (process.env.development) {
+if (process?.env?.development) {
     const dotenv = config();
     
     if (dotenv.error) throw new Error(`Error while configuring dotenv, \n Error: ${dotenv.error}`);
