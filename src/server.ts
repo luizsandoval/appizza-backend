@@ -10,7 +10,7 @@ import Routes from './routes';
 
 const dotenv = config();
 
-if (dotenv.error) throw new Error('Error while configuring dotenv');
+if (dotenv.error) throw new Error(`Error while configuring dotenv, \n Error: ${dotenv.error}`);
 
 const authenticate = expressJwt({ secret: process.env.SECRET_JWT || '' })
     .unless(
