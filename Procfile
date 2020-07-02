@@ -1,1 +1,1 @@
-web:ts-node-dev /src/server.ts
+web: yarn database:prod && yarn build:prod && yarn start:prod

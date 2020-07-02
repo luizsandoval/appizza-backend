@@ -3,13 +3,23 @@
     "version": "1.0.0",
     "main": "src/server.ts",
     "license": "MIT",
+    "author": {
+        "name": "Luiz Sandoval",
+        "email": "lgustavo728@gmail.com",
+        "url": "https://github.com/luizsandoval"
+    },
     "scripts": {
         "build": "tsc -w",
-        "start": "ts-node-dev --transpileOnly --ignore-watch node_modules src/server.ts",
+        "build:prod": "tsc && npm run copy-assets",
+        "start:prod": "node ./dist/src/server.js",
+        "start:dev": "ts-node-dev --transpileOnly --ignore-watch node_modules src/server.ts",
         "database": "npm run knex:migrate && npm run knex:seed",
+        "database:prod": "npm run knex:migrate:prod && npm run knex:seed:prod",
         "knex:seed": "knex --knexfile knexfile.ts seed:run",
         "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
-        "copy-assets": "copy uploads dist/uploads"
+        "knex:seed:prod": "knex --knexfile dist/knexfile.js seed:run",
+        "knex:migrate:prod": "knex --knexfile dist/knexfile.js migrate:latest",
+        "copy-assets": "mkdir -p \"dist\\uploads\\default\" && xcopy \"uploads\\default\" \"dist\\uploads\\default\""
     },
     "dependencies": {
         "celebrate": "^12.1.1",
