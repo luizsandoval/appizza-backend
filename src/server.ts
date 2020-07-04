@@ -6,26 +6,20 @@ import expressJwt from 'express-jwt';
 import { config } from 'dotenv';
 import { errors } from 'celebrate';
 
+import isNonAuthenticatedRoute from './middlewares/isNonAuthenticatedRoute';
+
 import Routes from './routes'; 
 
-if (process?.env?.development) {
+
+if (process.env.NODE_ENV === 'development') {
     const dotenv = config();
-    
+
     if (dotenv.error) throw new Error(`Error while configuring dotenv, \n Error: ${dotenv.error}`);
 }
 
 const authenticate = expressJwt({ secret: process.env.SECRET_JWT || '' })
-    .unless(
-        { 
-            path: [
-                '/uploads',
-                '/signIn',
-                '/users'
-            ],
-            method: ['GET', 'POST']
-        }
-);
- 
+    .unless(({ originalUrl }) => isNonAuthenticatedRoute(originalUrl));
+
 const app = express();
 
 app.use(cors());

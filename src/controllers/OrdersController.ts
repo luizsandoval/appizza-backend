@@ -62,15 +62,23 @@ class OrdersController {
                     'u.name as firstname', 
                     'u.surname as lastname',
                     'o.total as total',
+                    'o.address as address',
                     'o.created_at as created_at'
-                );
+                )
+                .orderBy('o.id', 'desc');
 
             const ordersIds = orders.map((order) => order.id);
 
             const ordersItems = await knex('orders_pizzas as op')
                 .whereIn('op.order_id', ordersIds)
                 .join('pizzas as p', 'p.id', '=', 'op.pizza_id')
-                .select('p.name as name', 'p.price as price', 'op.order_id as order_id');
+                .select(
+                    'p.id as id',
+                    'p.name as name',
+                    'p.ingredients as ingredients',
+                    'p.price as price',
+                    'op.order_id as order_id'
+                );
 
             const serializedOrders = orders.map(order => (
                 {
