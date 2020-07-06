@@ -54,9 +54,8 @@ class PizzasController {
 
             const trx = await knex.transaction();
     
-            const insertedPizza = await knex<Pizza>('pizzas')
-                .insert(pizza, '*')
-                .first();
+            const insertedPizza = await trx<Pizza>('pizzas')
+                .insert(pizza);
 
             await trx.commit();
     
@@ -75,7 +74,7 @@ class PizzasController {
 
             const trx = await knex.transaction();
     
-            const updatedPizza = await knex<Pizza>('pizzas')
+            const updatedPizza = await trx<Pizza>('pizzas')
                 .update(pizza, '*')
                 .where('id', pizza.id)
                 .first();
@@ -95,7 +94,7 @@ class PizzasController {
 
             const trx = await knex.transaction();
     
-            const removedPizza = await knex<Pizza>('pizzas')
+            const removedPizza = await trx<Pizza>('pizzas')
                 .update('active', false)
                 .where('id', id)
                 .first();

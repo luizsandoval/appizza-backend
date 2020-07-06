@@ -8,11 +8,11 @@ export async function up(knex: Knex) {
         table.string('image').notNullable();
         table.string('ingredients').notNullable();
         table.boolean('active').notNullable().defaultTo(true);
-        table.string('description', 30);
+        table.string('description', 100);
         table
             .dateTime('created_at')
             .notNullable()
-            .defaultTo(new Date());
+            .defaultTo(knex.fn.now());
     });
 }
 

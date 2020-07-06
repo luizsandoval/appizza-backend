@@ -75,6 +75,9 @@ routes
                                 .required()
                         }
                     )
+            },
+            {
+                abortEarly: false
             }
         ),
         usersController.authenticate
@@ -88,6 +91,7 @@ const pizzasController = new PizzasController();
 routes
     .post(
         '/pizzas',
+        upload.single('image'),
         celebrate(
             {
                 body: Joi.object<Pizza>()
@@ -105,19 +109,21 @@ routes
                                 .required(),
                             description: Joi
                                 .string()
-                                .max(30),
-                            image: Joi
-                                .string()
-                                .required()
-                        }
+                                .allow('')
+                                .max(30)
+                        },
+                        
                     )
+            },
+            {
+                abortEarly: false
             }
         ),
-        upload.single('image'),
         pizzasController.create
     )
     .put(
         '/pizzas',
+        upload.single('image'),
         celebrate(
             {
                 body: Joi.object<Pizza>()
@@ -134,16 +140,17 @@ routes
                                 .required(),
                             description: Joi
                                 .string()
+                                .allow('')
                                 .max(30),
                             price: Joi
                                 .number()
                                 .positive()
-                                .required(),
-                            image: Joi
-                                .string()
                                 .required()
                         }
                     )
+            },
+            {
+                abortEarly: false
             }
         ),
         pizzasController.destroy
@@ -157,6 +164,9 @@ routes
                         .number()
                         .required()
                 }
+            },
+            {
+                abortEarly: false
             }
         )
     )
@@ -173,6 +183,9 @@ routes
                         .number()
                         .required()
                 }
+            },
+            {
+                abortEarly: false
             }
         ),
         pizzasController.show
@@ -207,6 +220,9 @@ routes
                             .required()
                     }
                 )
+            },
+            {
+                abortEarly: false
             }
         ),
         ordersController.create
@@ -225,6 +241,9 @@ routes
                         .positive()
                         .required()
                 }
+            },
+            {
+                abortEarly: false
             }
         ),
         ordersController.show
