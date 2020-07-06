@@ -153,7 +153,7 @@ routes
                 abortEarly: false
             }
         ),
-        pizzasController.destroy
+        pizzasController.update
     )
     .delete(
         '/pizzas/:id',
@@ -168,7 +168,8 @@ routes
             {
                 abortEarly: false
             }
-        )
+        ),
+        pizzasController.destroy
     )
     .get(
         '/pizzas',

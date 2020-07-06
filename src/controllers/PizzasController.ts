@@ -55,11 +55,18 @@ class PizzasController {
             const trx = await knex.transaction();
     
             const insertedPizza = await trx<Pizza>('pizzas')
-                .insert(pizza);
+                .insert(pizza, '*');
 
             await trx.commit();
-    
-            return res.status(200).json(insertedPizza);
+
+            return res.status(200)
+                .json(
+                    {
+                        id: insertedPizza[0],
+                        ...pizza,
+                        image: `${process.env.IMAGES_URL}/${pizza?.image}`,
+                    }
+                );
 
         } catch (err) {
             return res.status(500).json(err);
@@ -74,14 +81,19 @@ class PizzasController {
 
             const trx = await knex.transaction();
     
-            const updatedPizza = await trx<Pizza>('pizzas')
+            await trx<Pizza>('pizzas')
                 .update(pizza, '*')
-                .where('id', pizza.id)
-                .first();
+                .where('id', pizza.id);
 
             await trx.commit();
     
-            return res.status(200).json(updatedPizza);
+            return res.status(200)
+                .json(
+                    {
+                        ...pizza,
+                        image: `${process.env.IMAGES_URL}/${pizza?.image}`,
+                    }
+                );
 
         } catch (err) {
             return res.status(500).json(err);
@@ -96,8 +108,7 @@ class PizzasController {
     
             const removedPizza = await trx<Pizza>('pizzas')
                 .update('active', false)
-                .where('id', id)
-                .first();
+                .where('id', id);
 
             await trx.commit();
     
