@@ -18,7 +18,7 @@
         "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
         "knex:seed:prod": "knex --knexfile dist/knexfile.js seed:run",
         "knex:migrate:prod": "knex --knexfile dist/knexfile.js migrate:latest",
-        "copy-assets": "mkdir -p dist/uploads/default && cp -r uploads/default dist/uploads/default"
+        "copy-assets": "mkdir -p dist/uploads/default && cp -R uploads/default dist/uploads/default && ls dist"
     },
     "dependencies": {
         "celebrate": "^12.1.1",
