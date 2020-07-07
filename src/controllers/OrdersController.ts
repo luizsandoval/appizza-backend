@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import knex from '../database/connection';
 import Order from '../models/order.model';
+import User from '../models/user.model';
 
 interface CreateOrderRequest {
     user_id: number;
@@ -53,8 +54,10 @@ class OrdersController {
         }
     }
 
-    async index(req: Request, res: Response) {
+    async index(req: Request | any, res: Response) {
         try {
+            const user = req.user as unknown as User;
+
             const orders: Order[] = await knex<Order>('orders as o')
                 .join('users as u', 'u.id', '=', 'o.user_id')
                 .select(
@@ -65,6 +68,7 @@ class OrdersController {
                     'o.address as address',
                     'o.created_at as created_at'
                 )
+                .where('o.user_id', user.id || 0)
                 .orderBy('o.id', 'desc');
 
             const ordersIds = orders.map((order) => order.id);
