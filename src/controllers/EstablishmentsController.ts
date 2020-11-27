@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import knex from '../database/connection';
 
 import { 
-    Establishment,
+    Establishment, Pizza,
 } from '../models';
 
 import { encryptPassword } from '../helpers/passwordEncryptor';
@@ -94,6 +94,11 @@ class EstablishmentsController {
                     'longitude',
                 )
                 .first();
+
+            const pizzas = await knex<Pizza[]>('pizzas')
+                .where('establishment_id', id);
+
+            establishment.pizzas = pizzas;
 
             return res.status(200).json(establishment);
 
