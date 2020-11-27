@@ -13,14 +13,14 @@ module.exports = {
     },
     staging: {
         client: 'pg',
-        connection: process.env.POSTGRES_URL,
+        connection: process.env.DATABASE_URL,
         migrations: {
             directory: path.resolve(__dirname, 'src', 'database', 'migrations'),
         }
     },
     production: {
         client: 'pg',
-        connection: process.env.POSTGRES_URL,
+        connection: process.env.DATABASE_URL,
         migrations: {
             directory: path.resolve(__dirname, 'src', 'database', 'migrations'),
         }
