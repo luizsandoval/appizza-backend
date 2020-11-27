@@ -9,6 +9,10 @@ export async function up(knex: Knex) {
         table.string('ingredients').notNullable();
         table.boolean('active').notNullable().defaultTo(true);
         table.string('description', 100);
+        table.integer('establishment_id')
+            .notNullable()
+            .references('id')
+            .inTable('establishments')
         table
             .dateTime('created_at')
             .notNullable()

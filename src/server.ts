@@ -1,6 +1,7 @@
-import express from 'express';
 import path from 'path';
 import cors from 'cors';
+import morgan from 'morgan';
+import express from 'express';
 import expressJwt from 'express-jwt';
 
 import { config } from 'dotenv';
@@ -9,7 +10,6 @@ import { errors } from 'celebrate';
 import isNonAuthenticatedRoute from './middlewares/isNonAuthenticatedRoute';
 
 import Routes from './routes'; 
-
 
 if (process.env.NODE_ENV === 'development') {
     const dotenv = config();
@@ -24,13 +24,15 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.json());
+app.use(errors());
 
 app.use(authenticate);
 
-app.use(Routes);
+app.use(morgan('dev'));
 
-app.use(errors());
+app.use(express.json());
+
+app.use(Routes);
 
 app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
 

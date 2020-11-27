@@ -1,9 +1,10 @@
 export default interface User {
     id?: number;
-    name: string;
-    surname: string;
+    first_name: string;
+    last_name: string;
     email: string;
     cpf: string;
-    address: string;
+    latitude: number;
+    longitude: number;
     password: string;
 }

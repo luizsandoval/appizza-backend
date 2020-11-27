@@ -5,6 +5,10 @@ export async function up(knex: Knex) {
         table.increments('id').primary();
         table.decimal('total').notNullable();
         table.string('address').notNullable();
+        table.integer('establishment_id')
+             .notNullable()
+             .references('id')
+             .inTable('establishments')
         table.integer('user_id')
             .notNullable()
             .references('id')

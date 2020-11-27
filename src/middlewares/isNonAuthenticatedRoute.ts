@@ -1,5 +1,5 @@
 const isNonAuthenticatedRoute = (requestUrl: string) => {
-    const nonAuthenticatedRoutes = ['uploads', 'signIn', 'users'];
+    const nonAuthenticatedRoutes = ['uploads', 'auth', 'establishments', 'users'];
 
     const isNonAuthenticatedRoute = nonAuthenticatedRoutes
         .some(route => requestUrl.includes(route));
