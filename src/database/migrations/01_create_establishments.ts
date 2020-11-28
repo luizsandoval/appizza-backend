@@ -47,10 +47,10 @@ export async function up(knex: Knex) {
                 .notNullable()
                 .defaultTo(knex.fn.now());
     });
-}
+};
 
 export async function down(knex: Knex) {
     return knex
         .schema
         .dropTable('establishments');
-}
+};

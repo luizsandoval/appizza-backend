@@ -15,11 +15,15 @@ export async function up(knex: Knex) {
                 .notNullable()
                 .references('id')
                 .inTable('pizzas');
+
+            table
+                .integer('quantity')
+                .notNullable()
         });
-}
+};
 
 export async function down(knex: Knex) {
     return knex
         .schema
         .dropTable('orders_pizzas');
-}
+};

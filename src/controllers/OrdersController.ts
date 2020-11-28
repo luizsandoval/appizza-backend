@@ -1,39 +1,49 @@
 import { Request, Response } from 'express';
 
 import knex from '../database/connection';
-import Order from '../models/order.model';
+
 import User from '../models/user.model';
+import Order from '../models/order.model';
+import Pizza from '../models/pizza.model';
 
 interface CreateOrderRequest {
-    user_id: number;
-    pizza_ids: number[]; 
     total: number;
-    address: string;
+    user_id: number;
+    pizzas: Pizza[]; 
+    latitude: number;
+    longitude: number;
+    establishment_id: number;
 }
 
 class OrdersController {
     async create(req: Request, res: Response) {
         try {
-            const { user_id, pizza_ids, total, address }: CreateOrderRequest = req.body;                
+            const { 
+                total, 
+                user_id, 
+                pizzas,
+                establishment_id, 
+            }: CreateOrderRequest = req.body;                
         
             const trx = await knex.transaction();
     
             const order = {
-                user_id,
                 total,
-                address
-            };  
+                user_id,
+                establishment_id,
+            };
 
             const insertedOrder = await trx<Order>('orders')
                 .insert(order);
             
             const order_id = insertedOrder[0];
             
-            const ordersPizzas = pizza_ids
-                .map(pizza_id => (
+            const ordersPizzas = pizzas
+                .map(({ id: pizza_id, quantity }) => (
                     {
                         pizza_id,
-                        order_id
+                        quantity,
+                        order_id,
                     }
                 ));
 
@@ -60,12 +70,17 @@ class OrdersController {
 
             const orders: Order[] = await knex<Order>('orders as o')
                 .join('users as u', 'u.id', '=', 'o.user_id')
+                .join('establishments as e', 'e.id', '=', 'o.establishment_id')
                 .select(
                     'o.id as id',
-                    'u.name as firstname', 
-                    'u.surname as lastname',
+                    'u.first_name as first_name', 
+                    'u.last_name as last_name',
+                    'u.latitude as user_latitude',
+                    'u.longitude as user_longitude',
+                    'e.latitude as establishment_latitude',
+                    'e.longitude as establishment_longitude',
+                    'e.company_name as company_name',
                     'o.total as total',
-                    'o.address as address',
                     'o.created_at as created_at'
                 )
                 .where('o.user_id', user.id || 0)
@@ -79,9 +94,10 @@ class OrdersController {
                 .select(
                     'p.id as id',
                     'p.name as name',
-                    'p.ingredients as ingredients',
                     'p.price as price',
-                    'op.order_id as order_id'
+                    'p.ingredients as ingredients',
+                    'op.order_id as order_id',
+                    'op.quantity as quantity',
                 );
 
             const serializedOrders = orders.map(order => (
@@ -109,8 +125,14 @@ class OrdersController {
                     'o.id as id',
                     'o.total as total',
                     'o.created_at as created_at',
-                    'u.name as firstname', 
-                    'u.surname as lastname',
+                    'o.payment_term as payment_term',
+                    'u.first_name as user_first_name', 
+                    'u.last_name as user_last_name',
+                    'u.latitude as user_latitude',
+                    'u.longitude as user_longitude',
+                    'e.company_name as company_name',
+                    'e.latitude as establishment_latitude',
+                    'e.longitude as establishment_longitude',
                 )
                 .first();
 
@@ -121,7 +143,9 @@ class OrdersController {
                     'p.name as name', 
                     'p.price as price',
                     'p.ingredients as ingredients',
-                    'p.image as image'
+                    'p.image as image',
+                    'op.quantity as quantity',
+                    'op.order_id as id'
                 );
 
             const serializedOrder = {

@@ -1,8 +1,9 @@
+import Pizza from './pizza.model';
+
 export default interface Order {
     id: number;
     user_id: number;
     total: number;
-    address: string;
-    pizza_ids: number[];
+    pizza: Pizza[];
     created_at: Date;
-}
+};

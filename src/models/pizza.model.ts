@@ -6,6 +6,7 @@ export default interface Pizza {
     name: string;
     ingredients: string;
     establishment_id: string;
-    price: number;
     image: string;
-}
+    price: number;
+    quantity: number;
+};
