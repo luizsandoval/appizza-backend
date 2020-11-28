@@ -96,10 +96,15 @@ class EstablishmentsController {
                 )
                 .first();
 
-            const pizzas = await knex<Pizza[]>('pizzas')
+            const pizzas = await knex<Pizza>('pizzas')
                 .where('establishment_id', id);
 
-            establishment.pizzas = pizzas;
+            establishment.pizzas = pizzas.map(pizza => (
+                {
+                    ...pizza,
+                    image: `${process.env.IMAGES_URL}/${pizza?.image}`
+                }
+            ));
 
             return res.status(200).json(establishment);
 
