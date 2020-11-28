@@ -85,6 +85,7 @@ class EstablishmentsController {
                 .select(
                     'id',
                     'cnpj',
+                    'company_name',
                     'fantasy_name as name',
                     'email',
                     'phone',
