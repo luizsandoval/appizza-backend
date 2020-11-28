@@ -2,6 +2,8 @@ import { celebrate, Joi } from 'celebrate';
 
 import { Order } from '../../../models';
 
+const PAYMENT_TERMS = ['Dinheiro', 'Cartão de Crédito', 'Cartão de Débito'];
+
 export default celebrate(
     {
         body: Joi.object<Order>(
@@ -10,17 +12,21 @@ export default celebrate(
                     .number()
                     .positive()
                     .required(),
-                address: Joi
-                    .string()
-                    .required(),
                 user_id: Joi
                     .number()
                     .positive()
                     .required(),
-                pizza_ids: Joi
+                establishment_id: Joi
+                    .number()
+                    .positive()
+                    .required(),
+                pizzas: Joi
                     .array()
-                    .items(Joi.number().positive())
+                    .required(),
+                payment_term: Joi
+                    .string()
                     .required()
+                    .equal(PAYMENT_TERMS)
             }
         )
     },
