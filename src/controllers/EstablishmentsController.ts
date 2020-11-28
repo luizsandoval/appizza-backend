@@ -97,7 +97,8 @@ class EstablishmentsController {
                 .first();
 
             const pizzas = await knex<Pizza>('pizzas')
-                .where('establishment_id', id);
+                .where('establishment_id', id)
+                .where('active', true);
 
             establishment.pizzas = pizzas.map(pizza => (
                 {
