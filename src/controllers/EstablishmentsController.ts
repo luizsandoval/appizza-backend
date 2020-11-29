@@ -72,6 +72,7 @@ class EstablishmentsController {
             return res.status(200).json(establishments);
 
         } catch (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
     }

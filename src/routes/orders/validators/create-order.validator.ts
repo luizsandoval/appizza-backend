@@ -2,8 +2,6 @@ import { celebrate, Joi } from 'celebrate';
 
 import { Order } from '../../../models';
 
-const PAYMENT_TERMS = ['Dinheiro', 'Cartão de Crédito', 'Cartão de Débito'];
-
 export default celebrate(
     {
         body: Joi.object<Order>(
@@ -26,7 +24,6 @@ export default celebrate(
                 payment_term: Joi
                     .string()
                     .required()
-                    .equal(PAYMENT_TERMS)
             }
         )
     },
