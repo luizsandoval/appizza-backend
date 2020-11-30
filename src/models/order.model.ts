@@ -1,6 +1,6 @@
 import Pizza from './pizza.model';
 
-type PaymentTerms = 'Dinheiro' | 'Cartão de Crédito' | 'Cartão de Débito';
+export type PaymentTerms = 'Dinheiro' | 'Cartão de Crédito' | 'Cartão de Débito';
 
 export default interface Order {
     id: number;

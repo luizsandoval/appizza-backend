@@ -3,17 +3,16 @@ import { Request, Response } from 'express';
 import knex from '../database/connection';
 
 import User from '../models/user.model';
-import Order from '../models/order.model';
+import Order, { PaymentTerms } from '../models/order.model';
 import Pizza from '../models/pizza.model';
 
 interface CreateOrderRequest {
     total: number;
     user_id: number;
     pizzas: Pizza[]; 
-    latitude: number;
-    longitude: number;
     establishment_id: number;
-}
+    payment_term: PaymentTerms;
+};
 
 class OrdersController {
     async create(req: Request, res: Response) {
@@ -22,6 +21,7 @@ class OrdersController {
                 total, 
                 user_id, 
                 pizzas,
+                payment_term,
                 establishment_id, 
             }: CreateOrderRequest = req.body;                
         
@@ -30,6 +30,7 @@ class OrdersController {
             const order = {
                 total,
                 user_id,
+                payment_term,
                 establishment_id,
             };
 
