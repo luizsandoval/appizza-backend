@@ -37,8 +37,6 @@ class OrdersController {
             const insertedOrder = await trx<Order>('orders')
                 .insert(order, 'id');
 
-            console.log('INSERTED', insertedOrder);
-            
             const order_id = insertedOrder[0];
             
             const ordersPizzas = pizzas
@@ -63,7 +61,6 @@ class OrdersController {
             );
 
         } catch (err) {
-            console.log('error order', err);
             return res.status(500).json(err);
         }
     }
