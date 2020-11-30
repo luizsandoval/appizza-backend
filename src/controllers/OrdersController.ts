@@ -36,6 +36,8 @@ class OrdersController {
 
             const insertedOrder = await trx<Order>('orders')
                 .insert(order);
+
+            console.log('INSERTED', insertedOrder);
             
             const order_id = insertedOrder[0];
             
