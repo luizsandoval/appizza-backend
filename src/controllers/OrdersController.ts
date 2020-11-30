@@ -35,7 +35,7 @@ class OrdersController {
             };
 
             const insertedOrder = await trx<Order>('orders')
-                .insert(order);
+                .insert(order, 'id');
 
             console.log('INSERTED', insertedOrder);
             
