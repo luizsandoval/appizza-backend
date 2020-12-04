@@ -14,6 +14,10 @@ export async function up(knex: Knex) {
                 .string('payment_term')
                 .notNullable();
             table
+                .boolean('finished')
+                .notNullable()
+                .defaultTo(false);
+            table
                 .integer('establishment_id')
                 .notNullable()
                 .references('id')
