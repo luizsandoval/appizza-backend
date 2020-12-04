@@ -6,18 +6,29 @@ import {
 
 import { 
     getOrderValidator,
-    createOrderValidator, 
+    createOrderValidator,
+    updateOrderValidator,
 } from './validators';
 
 const routes = Router();
 
-const { create, index, show } = new OrdersController();
+const { 
+    show,
+    index, 
+    create, 
+    update, 
+} = new OrdersController();
 
 routes
     .post(
         '/orders',
-       createOrderValidator,
+        createOrderValidator,
         create
+    )
+    .put(
+        '/orders',
+        updateOrderValidator,
+        update
     )
     .get(
         '/orders',

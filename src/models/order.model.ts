@@ -8,6 +8,8 @@ export default interface Order {
     pizzas: Pizza[];
     user_id: number;
     created_at: Date;
+    finished_at?: Date;
+    finished?: boolean;
     establishment_id: number;
     payment_term: PaymentTerms;
 };

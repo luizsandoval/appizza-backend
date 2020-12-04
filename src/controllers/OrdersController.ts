@@ -14,6 +14,16 @@ interface CreateOrderRequest {
     payment_term: PaymentTerms;
 };
 
+interface UpdateOrderRequest {
+    id: number;
+    total?: number;
+    user_id?: number;
+    finished?: boolean;
+    finished_at?: Date;
+    establishment_id?: number;
+    payment_term?: PaymentTerms;
+};
+
 class OrdersController {
     async create(req: Request, res: Response) {
         try {
@@ -59,6 +69,41 @@ class OrdersController {
                     ...order
                 }
             );
+
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    }
+
+    async update(req: Request, res: Response) {
+        try {
+            const {
+                id,
+                total, 
+                user_id, 
+                finished,
+                payment_term,
+                establishment_id, 
+            }: UpdateOrderRequest = req.body;                
+        
+            const trx = await knex.transaction();
+    
+            const order: UpdateOrderRequest = {
+                id,
+                total,
+                user_id,
+                finished,
+                payment_term,
+                establishment_id,
+            };
+
+            if (finished) order.finished_at = new Date();
+
+            await trx<Order>('orders').update(order, '*');
+
+            await trx.commit();
+    
+            return res.status(200).json(order);
 
         } catch (err) {
             return res.status(500).json(err);

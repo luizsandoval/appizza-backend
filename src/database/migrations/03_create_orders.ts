@@ -31,6 +31,9 @@ export async function up(knex: Knex) {
                 .dateTime('created_at')
                 .notNullable()
                 .defaultTo(knex.fn.now());
+            table
+                .dateTime('finished_at')
+                .notNullable()
     });
 };
 
