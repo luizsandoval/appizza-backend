@@ -142,12 +142,12 @@ class OrdersController {
                 .where('op.order_id', id)
                 .join('pizzas as p', 'p.id', '=', 'op.pizza_id')
                 .select(
+                    'p.id as id',
                     'p.name as name', 
                     'p.price as price',
                     'p.ingredients as ingredients',
                     'p.image as image',
                     'op.quantity as quantity',
-                    'op.order_id as id'
                 );
 
             const serializedOrder = {
