@@ -122,6 +122,7 @@ class OrdersController {
             const order: Order = await knex<Order>('orders as o')
                 .where('o.id', id)
                 .join('users as u', 'u.id', '=', 'o.user_id')
+                .join('establishments as e', 'e.id', '=', 'o.establishment_id')
                 .select(
                     'o.id as id',
                     'o.total as total',
