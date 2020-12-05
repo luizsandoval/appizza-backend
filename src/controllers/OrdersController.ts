@@ -125,7 +125,7 @@ class OrdersController {
                     'u.longitude as user_longitude',
                     'e.latitude as establishment_latitude',
                     'e.longitude as establishment_longitude',
-                    'e.company_name as company_name',
+                    'e.fantasy_name as company_name',
                     'o.total as total',
                     'o.created_at as created_at'
                 )
