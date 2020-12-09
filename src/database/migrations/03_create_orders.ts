@@ -33,7 +33,6 @@ export async function up(knex: Knex) {
                 .defaultTo(knex.fn.now());
             table
                 .dateTime('finished_at')
-                .notNullable()
     });
 };
 

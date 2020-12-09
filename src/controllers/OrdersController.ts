@@ -71,7 +71,6 @@ class OrdersController {
             );
 
         } catch (err) {
-            console.log('error', err);
             return res.status(500).json(err);
         }
     }
