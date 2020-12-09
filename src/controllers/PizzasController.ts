@@ -3,13 +3,17 @@ import { Request, Response } from 'express';
 import knex from '../database/connection';
 
 import Pizza from '../models/pizza.model';
+import Establishment from '../models/establishment.model';
 
 class PizzasController {
 
-    async index(req: Request, res: Response) {
+    async index(req: Request | any, res: Response) {
         try {
+            const user = req.user as unknown as Establishment;
+
             const pizzas = await knex<Pizza>('pizzas')
-                .where('active', true);
+                .where('active', true)
+                .where('establishment_id', user.id || 0);
 
             const serializedPizzas = pizzas
                 .map(pizza => (

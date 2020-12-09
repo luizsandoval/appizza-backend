@@ -103,7 +103,14 @@ class OrdersController {
 
             await trx.commit();
     
-            return res.status(200).json(order);
+            return res
+                .status(200)
+                .json(
+                    {
+                        ...req.body,
+                        ...order,
+                    }
+                );
 
         } catch (err) {
             return res.status(500).json(err);
