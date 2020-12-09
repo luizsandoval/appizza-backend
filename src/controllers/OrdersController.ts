@@ -139,6 +139,8 @@ class OrdersController {
                 .where(`${user.cpf ? 'o.user_id' : 'o.establishment_id'}`, user.id || 0)
                 .orderBy('o.id', 'desc');
 
+            console.log('orders', orders);
+
             const ordersIds = orders.map((order) => order.id);
 
             const ordersItems = await knex('orders_pizzas as op')
@@ -159,6 +161,8 @@ class OrdersController {
                     pizzas: ordersItems.filter(item => item.order_id === order.id)
                 }
             ));
+
+            console.log('serializedOrders', serializedOrders);
 
             return res.status(200).json(serializedOrders);
 
