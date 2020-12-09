@@ -136,7 +136,7 @@ class OrdersController {
                     'o.total as total',
                     'o.created_at as created_at'
                 )
-                .where('o.user_id', user.id || 0)
+                .where(`${user.cpf ? 'o.user_id' : 'o.establishment_id'}`, user.id || 0)
                 .orderBy('o.id', 'desc');
 
             const ordersIds = orders.map((order) => order.id);
@@ -163,6 +163,7 @@ class OrdersController {
             return res.status(200).json(serializedOrders);
 
         } catch (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
     }
